@@ -1,0 +1,186 @@
+@layer base {
+  :root {
+    /* Cerca — warm, trustworthy, social */
+    --background: 36 38% 97%;
+    --foreground: 158 18% 13%;
+    --card: 0 0% 100%;
+    --card-foreground: 158 18% 13%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 158 18% 13%;
+    --primary: 164 33% 27%;
+    --primary-foreground: 40 50% 98%;
+    --secondary: 38 34% 91%;
+    --secondary-foreground: 164 33% 22%;
+    --muted: 37 30% 93%;
+    --muted-foreground: 158 8% 44%;
+    --accent: 38 44% 88%;
+    --accent-foreground: 164 33% 22%;
+    --destructive: 14 78% 54%;
+    --destructive-foreground: 40 50% 98%;
+    --border: 37 26% 87%;
+    --input: 37 26% 87%;
+    --ring: 164 33% 27%;
+    --chart-1: 164 33% 27%;
+    --chart-2: 14 78% 54%;
+    --chart-3: 38 60% 62%;
+    --chart-4: 190 30% 45%;
+    --chart-5: 275 20% 55%;
+    --radius: 1rem;
+    --sidebar-background: 36 38% 97%;
+    --sidebar-foreground: 158 18% 13%;
+    --sidebar-primary: 164 33% 27%;
+    --sidebar-primary-foreground: 40 50% 98%;
+    --sidebar-accent: 38 34% 91%;
+    --sidebar-accent-foreground: 164 33% 22%;
+    --sidebar-border: 37 26% 87%;
+    --sidebar-ring: 164 33% 27%;
+  }
+
+  .dark {
+    --background: 160 14% 9%;
+    --foreground: 40 30% 96%;
+    --card: 160 12% 12%;
+    --card-foreground: 40 30% 96%;
+    --popover: 160 12% 12%;
+    --popover-foreground: 40 30% 96%;
+    --primary: 160 34% 58%;
+    --primary-foreground: 160 20% 10%;
+    --secondary: 160 10% 18%;
+    --secondary-foreground: 40 30% 96%;
+    --muted: 160 10% 18%;
+    --muted-foreground: 150 8% 65%;
+    --accent: 160 10% 20%;
+    --accent-foreground: 40 30% 96%;
+    --destructive: 14 72% 52%;
+    --destructive-foreground: 40 30% 96%;
+    --border: 160 10% 20%;
+    --input: 160 10% 20%;
+    --ring: 160 34% 58%;
+    --sidebar-background: 160 14% 9%;
+    --sidebar-foreground: 40 30% 96%;
+    --sidebar-primary: 160 34% 58%;
+    --sidebar-primary-foreground: 160 20% 10%;
+    --sidebar-accent: 160 10% 18%;
+    --sidebar-accent-foreground: 40 30% 96%;
+    --sidebar-border: 160 10% 20%;
+    --sidebar-ring: 160 34% 58%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer utilities {
+  .press {
+    @apply transition-all duration-150 active:scale-[0.97];
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---- Leaflet map + Cerca markers ---- */
+.leaflet-container {
+    position: relative;
+    z-index: 0;
+    font-family: inherit;
+    background: #eae4d9;
+}
+
+.leaflet-container .leaflet-control-attribution {
+    font-size: 10px;
+    background: rgba(255, 255, 255, 0.75);
+}
+
+.leaflet-container .leaflet-bar a {
+    color: #1f2a24;
+    border-radius: 8px;
+}
+
+.cerca-pin-wrap {
+    background: transparent;
+    border: 0;
+}
+
+.cerca-pin {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 1;
+    border: 2.5px solid #fff;
+    box-shadow: 0 6px 16px -6px rgba(31, 42, 36, 0.55);
+    transition: transform 0.15s ease;
+    cursor: pointer;
+}
+
+.cerca-pin[data-shape="round"] {
+    border-radius: 50%;
+}
+
+.cerca-pin[data-shape="square"] {
+    border-radius: 9px;
+}
+
+.cerca-pin[data-status="lost"] {
+    background: #e1552b;
+}
+
+.cerca-pin[data-status="found"] {
+    background: #2f7d5c;
+}
+
+.cerca-pin[data-status="pick"] {
+    background: #1f2a24;
+}
+
+.cerca-pin[data-selected="true"] {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 5px rgba(47, 93, 80, 0.25), 0 8px 20px -6px rgba(31, 42, 36, 0.6);
+}
+
+.cerca-pin::after {
+    content: "";
+    position: absolute;
+    bottom: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 9px solid #fff;
+}
+
+.leaflet-tooltip {
+    border-radius: 999px;
+    border: 1px solid #e7dfd2;
+    box-shadow: 0 6px 18px -10px rgba(31, 42, 36, 0.4);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+}
